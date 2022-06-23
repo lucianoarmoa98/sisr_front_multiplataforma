@@ -25,6 +25,7 @@ export default Todos_restaurants = ({ navigation }) => {
     const [rating, setrating] = useState(5);
     const [isfetched, setisfetched] = useState(false);
     const [favoriteIcon, setFavoriteIcon] = useState([]);//array de restaurantes favoritos
+    const [starIcon, setStarIcon] = useState(false);
 
     const stateRefresHome = useSelector(state => state.refresHome);
 
@@ -59,16 +60,9 @@ export default Todos_restaurants = ({ navigation }) => {
 
 
     return (
-        <View style={{ marginVertical: 10 }}>
+        <View style={{ }}>
             <View style={{ marginLeft: '5%' }}>
-                <Text
-                    style={{
-                        fontSize: 18,
-                        // fontWeight: 'bold',
-                        // color: '#000',
-                        marginBottom: 10,
-                        marginTop: 10,
-                    }}>
+                <Text style={stylesHome.titlePrincipalRestauranst}>
                     Todos los Restaurantes
                 </Text>
             </View>
@@ -137,24 +131,29 @@ export default Todos_restaurants = ({ navigation }) => {
 
                                         <TouchableOpacity onPress={() => navigation.navigate('Menu', {
                                             id: item.id,
-                                            // name: item.name,
-                                            // banner_url: item.banner_url,
-                                            // address: item.address,
-                                        })}
-                                        >
-                                            <Text style={{
-                                                color: '#197b5f',
-                                                fontSize: 15,
-                                                fontWeight: 'bold',
-                                            }}
-                                            >
+                                        })}>
+
+                                            <Text style={stylesHome.styleOpen}>
                                                 Abrir
                                             </Text>
                                         </TouchableOpacity>
-
                                     </View>
-                                    <View style={{}}>
-                                        <Text style={{ color: '#5f5f5f', marginLeft: '5%' }}>
+
+                                    <View style={stylesHome.contentText}>
+                                        <TouchableOpacity onPress={() => setStarIcon(!starIcon)}>
+                                            <Icon
+                                                name={starIcon ? 'star' : 'star-outline'}
+                                                size={20}
+                                                color={starIcon ? '#ce2828' : '#5f5f5f'}
+                                            />
+                                        </TouchableOpacity>
+
+                                        <Text style={{ marginRight: '6%', alignSelf: 'center' }}>
+                                            <Text style={{ color: starIcon ? '#ce2828' : '#5f5f5f' }}>4.5</Text>
+                                            <Text style={{ color: '#5f5f5f' }}>(6k)</Text>
+                                        </Text>
+
+                                        <Text style={stylesHome.titleAddress}>
                                             {item.address}
                                         </Text>
                                     </View>

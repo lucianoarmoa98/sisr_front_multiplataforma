@@ -151,13 +151,13 @@ const Register = ({ navigation }) => {
                         {checkSesion ?
                             <Icon
                                 name='check-circle-outline'
-                                size={50}
+                                size={30}
                                 type='material'
                                 color='#fffeff'
                             /> :
                             <Icon
                                 name='highlight-off'
-                                size={50}
+                                size={30}
                                 type='material'
                                 color='#fffeff'
                             />}

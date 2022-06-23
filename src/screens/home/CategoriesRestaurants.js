@@ -5,6 +5,7 @@ import { getLocales } from "../../api/api";
 import ShimmerPlaceholder from "react-native-shimmer-placeholder";
 import LinearGradient from "react-native-linear-gradient";
 import { useSelector } from "react-redux";
+import { stylesCategoriesRestaurants, stylesHome } from "../../styles/styles";
 
 const { height, width } = Dimensions.get('window');
 
@@ -34,27 +35,11 @@ const CategoriesRestaurants = ({ navigation }) => {
 
     return (
         <View>
-            <ListItem.Content
-                //agregar de forma horizontal
-                style={{ justifyContent: 'space-between', flexDirection: 'row', marginLeft: '5%', marginRight: '2%' }}
-            >
-                {/* <TouchableOpacity
-                //onPress={() => navigation.navigate('Mapa')}
-                > */}
-                <View>
-                    <Text
-                        style={{
-                            fontSize: 18,
-                            // fontWeight: 'bold',
-                            // // color: '#000',
-                            marginBottom: 10,
-                            marginTop: 10,
-                        }}>
-                        Categorías
-                    </Text>
-                </View>
-                {/* </TouchableOpacity> */}
-            </ListItem.Content>
+            <View style={{ marginLeft: '5%' }}>
+                <Text style={stylesHome.titlePrincipalRestauranst}>
+                    Categorías
+                </Text>
+            </View>
 
             <ShimmerPlaceholder
                 LinearGradient={LinearGradient}
@@ -62,7 +47,7 @@ const CategoriesRestaurants = ({ navigation }) => {
                 height={100}
                 visible={isfetched}
                 style={{ marginLeft: isfetched ? '1%' : '5%', borderRadius: isfetched ? 0 : 50 }}
-                >
+            >
 
                 {popularRestaurants ? (
                     <FlatList
@@ -73,21 +58,16 @@ const CategoriesRestaurants = ({ navigation }) => {
                         renderItem={({ item }) => (
                             <TouchableOpacity
                                 onPress={() => {
-                                 navigation.navigate('CategoriesScreen', { id: item.id });
+                                    navigation.navigate('CategoriesScreen', { id: item.id });
                                 }}
-                                // style={{ flex: 1, marginRight: 10, marginLeft: 10 }}
-                                >
-                                <View style={{ flex: 1, marginRight: 10, marginLeft: 10 }}>
+                            // style={{ flex: 1, marginRight: 10, marginLeft: 10 }}
+                            >
+                                <View style={stylesCategoriesRestaurants.contentCategories}>
                                     <Image
                                         source={{ uri: item.banner_url }}
-                                        style={{
-                                            height: 100,
-                                            width: 100,
-                                            borderRadius: 50,
-                                            overflow: 'hidden',
-                                        }}
+                                        style={stylesCategoriesRestaurants.contentImgCategories}
                                     />
-                                    <Text style={{alignSelf: 'center'}}>{item.name}</Text>
+                                    <Text style={{ alignSelf: 'center', marginLeft: 10 }}>{item.name}</Text>
                                 </View>
 
                             </TouchableOpacity>

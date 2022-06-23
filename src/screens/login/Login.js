@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Icon, Input, Text } from '@rneui/base';
-import { Image, Modal, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { Image, Modal, Platform, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { stylesLogin } from '../../styles/styles';
 import { postLogin } from '../../api/api';
 import { useDispatch } from 'react-redux';
@@ -130,13 +130,13 @@ const Login = ({ navigation }) => {
                         {checkSesion ?
                             <Icon
                                 name='check-circle-outline'
-                                size={50}
+                                size={30}
                                 type='material'
                                 color='#fffeff'
                             /> :
                             <Icon
                                 name='highlight-off'
-                                size={50}
+                                size={30}
                                 type='material'
                                 color='#fffeff'
                             />}
@@ -152,26 +152,41 @@ const Login = ({ navigation }) => {
 
             <View style={stylesLogin.container}>
                 <View style={stylesLogin.textTitle}>
-                    <Text style={{
+                    {/* <Text style={{
                         fontSize: 30,
                         fontWeight: 'bold',
                     }}>
                         SiSr App
-                    </Text>
+                    </Text> */}
                     <Text style={{
-                        fontSize: 15,
-                        color: 'rgba(95,95,95,255)',
+                        fontSize: 30,
+                        // color: 'rgba(95,95,95,255)',
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
                     }}>
-                        Bienvenido a SiSr App
+                        Bienvenido
                     </Text>
-                    <Text style={{
+                    {/* <Text style={{
                         fontSize: 15,
                         color: 'rgba(95,95,95,255)',
                     }}
                     >
                         Ingrese a su cuenta para continuar
-                    </Text>
+                    </Text> */}
                 </View>
+                
+                <Image
+                    source={require('../../assets/images/logo_rojo.png')}
+                    style={{
+                        // width: 130,
+                        width: Platform.OS === 'ios' ? 150 : 130,
+                        // height: 140,
+                        height: Platform.OS === 'ios' ? 170 : 143,
+                        alignSelf: 'center',
+                        marginBottom: 13,
+                        // shadowOpacity: 0.25,
+                    }}
+                />
 
                 <Input
                     inputContainerStyle={stylesLogin.input}

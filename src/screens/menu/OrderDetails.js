@@ -209,7 +209,7 @@ const OrderDetails = (navigation) => {
         if (stateQr) {
             //verifico que body.options, body.product_price, body.total, body.product_name, body.photo_url, body.currency_code no esten vacios
             if (body.product_price !== "" && body.total !== "" && body.product_name !== "" && body.photo_url !== "" && body.currency_code !== "") {
-                
+
                 try {
                     const response = JSON.stringify(arrayNew);
                     await AsyncStorage.setItem('@addCarrito', response);
@@ -218,7 +218,7 @@ const OrderDetails = (navigation) => {
                 } catch (error) {
                     // console.log(error);
                 }
-                
+
             } else {
                 console.log("no entro");
                 setMessage("Error al agregar al carrito");
@@ -242,11 +242,13 @@ const OrderDetails = (navigation) => {
                         <TouchableOpacity
                             onPress={() => navigation.navigation.goBack()}
                         >
-                            <Icon
-                                name="arrow-back"
-                                size={30}
-                                color="#737373"
-                            />
+                            <View style={stylesOrderDetails.viewContentBack}>
+                                <Icon
+                                    name="chevron-left"
+                                    size={30}
+                                    color="#ffffff"
+                                />
+                            </View>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -261,7 +263,7 @@ const OrderDetails = (navigation) => {
                     <View style={stylesOrderDetails.modalView}>
                         <Icon
                             name='highlight-off'
-                            size={50}
+                            size={30}
                             type='material'
                             color='#fffeff'
                         />
@@ -275,6 +277,12 @@ const OrderDetails = (navigation) => {
                 </View>
             </Modal>
 
+            <View style={stylesOrderDetails.viewTitleContent}>
+                <Text style={stylesOrderDetails.titleName}>
+                    {menuOpciones ? menuOpciones.name : ''}
+                </Text>
+            </View>
+
             <ScrollView>
                 <Image
                     source={{ uri: menuOpciones ? menuOpciones.photo_url : null }}
@@ -283,7 +291,7 @@ const OrderDetails = (navigation) => {
 
                 <View style={{ marginLeft: '5%' }}>
                     <View>
-                        <Text style={{ fontSize: 20 }}>Detalles del Producto</Text>
+                        <Text style={stylesOrderDetails.titleName}>Detalles del Producto</Text>
 
                         <Text style={stylesOrderDetails.titleDescription}>
                             {menuOpciones ? menuOpciones.description : ''}

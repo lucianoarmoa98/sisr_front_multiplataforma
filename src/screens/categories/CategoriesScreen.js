@@ -11,6 +11,7 @@ const CategoriesScreen = ({ navigation }) => {
     const [categoriesRestaurants, setCategoriesRestaurants] = useState([]);
     const [isfetched, setisfetched] = useState(false);
     const [favoriteIcon, setFavoriteIcon] = useState([]);//array de restaurantes favoritos
+    const [starIcon, setStarIcon] = useState(false);
 
     const { height, width } = Dimensions.get('window');
 
@@ -51,8 +52,19 @@ const CategoriesScreen = ({ navigation }) => {
 
                 <View style={{ justifyContent: 'flex-end', marginBottom: 10, flexDirection: 'row' }}>
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', right: 15 }}>
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack()}
+                        >
+                            <View style={stylesCategoriesScreen.viewContentBack}>
+                                <Icon
+                                    name="chevron-left"
+                                    size={30}
+                                    color="#ffffff"
+                                />
+                            </View>
 
-                        <Icon
+                        </TouchableOpacity>
+                        {/* <Icon
                             //icono de ubicacion
                             name="location-pin"
                             size={30}
@@ -73,7 +85,7 @@ const CategoriesScreen = ({ navigation }) => {
                                 color="rgba(115,115,115,255)"
                                 style={{ top: 10 }}
                             />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </View>
 
@@ -86,7 +98,7 @@ const CategoriesScreen = ({ navigation }) => {
                     width={100}
                     height={100}
                     visible={isfetched}
-                    style={{ borderRadius: isfetched ? 0 : 50, marginLeft: isfetched ? 5 : 20}}
+                    style={{ borderRadius: isfetched ? 0 : 50, marginLeft: isfetched ? 5 : 20 }}
                 >
                     {categoriesRestaurants ? (
                         <FlatList
@@ -101,17 +113,12 @@ const CategoriesScreen = ({ navigation }) => {
                                     }}
                                 // style={{ flex: 1, marginRight: 10, marginLeft: 10 }}
                                 >
-                                    <View style={{ flex: 1, marginRight: 10, marginLeft: 10 }}>
+                                    <View style={stylesCategoriesScreen.contentCategories}>
                                         <Image
                                             source={{ uri: item.banner_url }}
-                                            style={{
-                                                height: 100,
-                                                width: 100,
-                                                borderRadius: 50,
-                                                overflow: 'hidden',
-                                            }}
+                                            style={stylesCategoriesScreen.contentImgCategories}
                                         />
-                                        <Text style={{ alignSelf: 'center' }}>{item.name}</Text>
+                                        <Text style={{ alignSelf: 'center', marginLeft: 10 }}>{item.name}</Text>
                                     </View>
                                 </TouchableOpacity>
                             )}
@@ -197,10 +204,24 @@ const CategoriesScreen = ({ navigation }) => {
                                                         Abrir
                                                     </Text>
                                                 </TouchableOpacity>
-
                                             </View>
-                                            <View style={{}}>
-                                                <Text style={{ color: '#5f5f5f', marginLeft: '5%' }}>
+
+                                            <View style={stylesCategoriesScreen.contentText}>
+                                                <TouchableOpacity onPress={() => setStarIcon(!starIcon)}>
+                                                    <Icon
+                                                        name={starIcon ? 'star' : 'star-outline'}
+                                                        size={20}
+                                                        color={starIcon ? '#ce2828' : '#5f5f5f'}
+                                                    />
+                                                </TouchableOpacity>
+
+                                                <Text style={{ marginRight: '6%', alignSelf: 'center' }}>
+                                                    <Text style={{ color: starIcon ? '#ce2828' : '#5f5f5f' }}>4.5</Text>
+                                                    <Text style={{ color: '#5f5f5f' }}>(6k)</Text>
+                                                </Text>
+
+
+                                                <Text style={stylesCategoriesScreen.titleAddress}>
                                                     {item.address}
                                                 </Text>
                                             </View>

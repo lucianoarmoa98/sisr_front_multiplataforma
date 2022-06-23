@@ -266,11 +266,13 @@ const Menu = (navigation) => {
                                     // navigation.navigation.navigate('Home-Principal')
                                     navigation.navigation.goBack()
                                 }>
-                                    <Icon
-                                        name="arrow-back"
-                                        size={30}
-                                        color="#fff"
-                                    />
+                                    <View style={{ backgroundColor: 'rgba(206,40,40,255)', borderRadius: 10, width: 40, height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                                        <Icon
+                                            name="chevron-left"
+                                            size={30}
+                                            color="#ffffff"
+                                        />
+                                    </View>
                                 </TouchableOpacity>
                             </View>
 
@@ -456,13 +458,13 @@ const Menu = (navigation) => {
                                 {checkSesion ?
                                     <Icon
                                         name='check-circle-outline'
-                                        size={50}
+                                        size={30}
                                         type='material'
                                         color='#fffeff'
                                     /> :
                                     <Icon
                                         name='highlight-off'
-                                        size={50}
+                                        size={30}
                                         type='material'
                                         color='#fffeff'
                                     />

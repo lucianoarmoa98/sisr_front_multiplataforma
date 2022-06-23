@@ -137,7 +137,7 @@ const Home_screen = ({ navigation }) => {
       >
 
         <View style={{ justifyContent: 'flex-end', marginBottom: 10, flexDirection: 'row' }}>
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', right: 15 }}>
+          {/* <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', right: 15 }}>
 
             <Icon
               //icono de ubicacion
@@ -161,7 +161,7 @@ const Home_screen = ({ navigation }) => {
                 style={{ top: 10 }}
               />
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           {/* <TouchableOpacity>
             <View style={{ right: '50%' }}>

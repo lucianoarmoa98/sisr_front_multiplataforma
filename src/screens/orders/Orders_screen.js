@@ -251,14 +251,18 @@ const OrdersScreen = ({ navigation }) => {
                 />
               }
             >
-              <View style={{ alignItems: 'center', top: Platform.OS === 'ios' ? 35 : 20 }}>
+              <View style={{ alignItems: 'center', top: Platform.OS === 'ios' ? 45 : 20 }}>
                 <Text style={{ fontSize: 20, color: '#5f5f5f' }}>
                   Mi Carrito
                 </Text>
 
               </View>
 
-              <View style={{ alignItems: 'center', top: 20 }}>
+              <View style={{
+                alignItems: 'center',
+                top: Platform.OS === 'ios' ? 40 : 20,
+                marginBottom: Platform.OS === 'ios' ? 20 : 0
+              }}>
                 <ButtonGroup
                   onPress={(value) => {
                     // console.log("buton", value);
@@ -298,8 +302,13 @@ const OrdersScreen = ({ navigation }) => {
                             style={stylesOrders.imgStyle}
                           />
                           <View style={{ marginRight: 'auto', left: 10, width: '50%' }}>
-                            <Text>{item ? item.product_name : null}</Text>
-                            <Text>{item ? item.currency_code : null} {item ? item.product_price : null} {item ? item.quantity : null}x</Text>
+                            <Text style={stylesOrders.textColorTodo}>
+                              {item ? item.product_name : null}
+                            </Text>
+
+                            <Text style={stylesOrders.textColorTodo}>
+                              {item ? item.currency_code : null} {item ? item.product_price : null} {item ? item.quantity : null}x
+                            </Text>
                           </View>
 
                           <TouchableOpacity onPress={() => { removerItem(item.product_id) }}>
@@ -313,7 +322,7 @@ const OrdersScreen = ({ navigation }) => {
                     </View>
                   )) : (
                     <View style={{ alignItems: 'center', top: 20 }}>
-                      <Text>Su carrito esta vacío</Text>
+                      <Text style={stylesOrders.textColorTodo}>Su carrito esta vacío</Text>
                     </View>
                   )}
                 </View>
@@ -345,7 +354,7 @@ const OrdersScreen = ({ navigation }) => {
                     </View>
                   )) : (
                     <View style={{ alignItems: 'center', top: 20 }}>
-                      <Text>Su carrito esta vacío</Text>
+                      <Text style={stylesOrders.textColorTodo}>Su carrito esta vacío</Text>
                     </View>
                   )}
                 </View>
@@ -387,9 +396,11 @@ const OrdersScreen = ({ navigation }) => {
 
             {isOpen && (
               <View style={[stylesOrders.contentViewMonto,
-              { marginTop: iconView ? Platform.OS === 'ios' ? '100%' : deviceHeight > 700 ? '80%' : '50%' :
-              Platform.OS === 'ios' ? 722 : deviceHeight > 700 ? '170%' : '135%' }]}>
-              
+              {
+                marginTop: iconView ? Platform.OS === 'ios' ? '100%' : deviceHeight > 700 ? '80%' : '50%' :
+                  Platform.OS === 'ios' ? 722 : deviceHeight > 700 ? '170%' : '135%'
+              }]}>
+
                 <View>
                   <TouchableOpacity onPress={() => { setIconView(!iconView) }}>
                     <Icon

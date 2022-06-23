@@ -10,7 +10,7 @@ import {
     BackHandler,
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { ButtonGroup } from '@rneui/base';
+import { Button, ButtonGroup } from '@rneui/base';
 import { postCurrentOrder, postDetailsLocal, postDetailsMesaNumber } from '../../api/api';
 import { useDispatch } from 'react-redux';
 import { setIcon, setQrScaner, setSplashScreen } from '../../redux/actions/action';
@@ -70,13 +70,13 @@ const SplashScreenMesa = (props) => {
         //obtiene el numero de "mesa y el Id del local" => Api
         postDetailsMesaNumber(id)
             .then(response => {
-                // console.log("response--mesa", response);
+                console.log("response--mesa--info", response);
                 setMesaNumber(response);
 
                 //obtener el nombre de la mesa=> Api
                 postDetailsLocal(response.venue_id)
                     .then(response => {
-                        // console.log("response-mesa", response);
+                        console.log("response-mesa", response);
                         setDataMesa(response);
                     })
                     .catch(error => {
@@ -108,6 +108,8 @@ const SplashScreenMesa = (props) => {
         setDataToken(valueJson);//seteo el data del async storage
     };
 
+    let textTitle = mesaNumber ? mesaNumber.joining_enabled === true : false;
+
     return (
         <View style={styles.container}>
             {/* <StatusBar backgroundColor="#E12D31" barStyle="light-content" /> */}
@@ -119,68 +121,95 @@ const SplashScreenMesa = (props) => {
                 />
 
                 <View style={{ alignItems: 'center' }}>
-                    <Text style={styles.text}>
-                        {dataMesa ? dataMesa.name : null}
-                    </Text>
+                    {textTitle &&
+                        <Text style={styles.text}>
+                            {dataMesa ? dataMesa.name : null}
+                        </Text>
+                    }
 
-                    <Text style={styles.text}>
-                        {titleSplash ? "Únete a la mesa" : "Sé el propietario de la mesa"}
-                    </Text>
+                    {textTitle ?
+                        <>
+                            <Text style={styles.text}>
+                                {titleSplash ? "Únete a la mesa" : "Sé el propietario de la mesa"}
+                            </Text>
 
-                    <Text style={styles.textNum}>
-                        {mesaNumber ? mesaNumber.number : null}
-                    </Text>
+                            <Text style={styles.textNum}>
+                                {mesaNumber ? mesaNumber.number : null}
+                            </Text>
+                        </>
+                        :
+                        <Text style={styles.textStatus}>
+                            La mesa se encuetra ocupada
+                        </Text>
+                    }
+
 
                     <View style={{ top: 50 }}>
-                        <ButtonGroup
-                            onPress={(value) => {
-                                // console.log("buton", value);
-                                if (value === 0) {
-                                    setSelectIndex(value);
-                                    // dispatch(setSplashScreen(true));//visualiza el tabbar
-                                    if (titleSplash) {
-                                        // dispatch(setIcon(true));
-                                        dispatch(setSplashScreen(false));//visualiza el tabbar
-                                        setRetroceso(true);
-                                        props.navigation.navigate('Join', {
-                                            id: id,//table_id
-                                            venueId: mesaNumber ? mesaNumber.venue_id : null,//venue_id
-                                            propietario: mesaNumber ? mesaNumber.current_owner : null,
-                                        });
+                        {textTitle &&
+                            <ButtonGroup
+                                onPress={(value) => {
+                                    // console.log("buton", value);
+                                    if (value === 0) {
+                                        setSelectIndex(value);
+                                        // dispatch(setSplashScreen(true));//visualiza el tabbar
+                                        if (titleSplash) {
+                                            // dispatch(setIcon(true));
+                                            dispatch(setSplashScreen(false));//visualiza el tabbar
+                                            setRetroceso(true);
+                                            props.navigation.navigate('Join', {
+                                                id: id,//table_id
+                                                venueId: mesaNumber ? mesaNumber.venue_id : null,//venue_id
+                                                propietario: mesaNumber ? mesaNumber.current_owner : null,
+                                            });
+                                        } else {
+                                            handleCreateOrder();
+                                            setRetroceso(true);
+                                            dispatch(setQrScaner(true));//verifica si scaneo el qr
+                                            dispatch(setSplashScreen(true));//visualiza el tabbar
+                                            props.navigation.navigate('Home', {
+                                                screen: 'Menu',
+                                                params: {
+                                                    id: mesaNumber ? mesaNumber.venue_id : null//paso el id del qr
+                                                }
+                                            });
+                                        }
                                     } else {
-                                        handleCreateOrder();
                                         setRetroceso(true);
-                                        dispatch(setQrScaner(true));//verifica si scaneo el qr
+                                        setSelectIndex(value);
+                                        dispatch(setQrScaner(false));//verifica si scaneo el qr
                                         dispatch(setSplashScreen(true));//visualiza el tabbar
-                                        props.navigation.navigate('Home', {
-                                            screen: 'Menu',
-                                            params: {
-                                                id: mesaNumber ? mesaNumber.venue_id : null//paso el id del qr
-                                            }
-                                        });
+                                        setTimeout(() => { props.navigation.goBack(); }, 10);
                                     }
-                                } else {
+                                }}
+                                buttons={['Continuar', 'Cancelar']}
+                                selectedIndex={selectIndex}
+                                containerStyle={styles.buttonContainer}
+                                selectedButtonStyle={{
+                                    backgroundColor: '#ffffff',
+                                    borderRadius: 10,
+                                }}
+                                textStyle={styles.titleStyleButton}
+                                selectedTextStyle={styles.textColor}
+                                innerBorderStyle={{
+                                    width: 0,
+                                    color: 'transparent',
+                                }}
+                            />
+                        }
+
+                        {!textTitle &&
+                            <Button
+                                title="Cancelar"
+                                buttonStyle={styles.btnCancel}
+                                titleStyle={styles.textColorButtonCancel}
+                                onPress={() => {
                                     setRetroceso(true);
-                                    setSelectIndex(value);
                                     dispatch(setQrScaner(false));//verifica si scaneo el qr
                                     dispatch(setSplashScreen(true));//visualiza el tabbar
                                     setTimeout(() => { props.navigation.goBack(); }, 10);
-                                }
-                            }}
-                            buttons={['Continuar', 'Cancelar']}
-                            selectedIndex={selectIndex}
-                            containerStyle={styles.buttonContainer}
-                            selectedButtonStyle={{
-                                backgroundColor: '#ffffff',
-                                borderRadius: 10,
-                            }}
-                            textStyle={styles.titleStyleButton}
-                            selectedTextStyle={styles.textColor}
-                            innerBorderStyle={{
-                                width: 0,
-                                color: 'transparent',
-                            }}
-                        />
+                                }}
+                            />
+                        }
                     </View>
                 </View>
             </View>
@@ -228,6 +257,12 @@ const styles = StyleSheet.create({
         fontSize: 28,
         marginTop: 20,
     },
+    textStatus: {
+        color: '#fffafa',
+        // marginTop: 5,
+        fontSize: 25,
+        marginTop: 20,
+    },
     textNum: {
         color: '#fffafa',
         // marginTop: 5,
@@ -248,5 +283,18 @@ const styles = StyleSheet.create({
     textSign: {
         color: 'white',
         fontWeight: 'bold',
+    },
+    textColorButtonCancel: {
+        color: '#212429',
+        fontSize: 20,
+    },
+    btnCancel: {
+        backgroundColor: '#ffffff',
+        width: 150,
+        height: 80,
+        borderRadius: 10,
+        marginTop: 20,
+        marginBottom: 20,
+        alignSelf: 'center'
     },
 });

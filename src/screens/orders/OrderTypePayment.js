@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button, ButtonGroup, Card, CheckBox, Divider, Icon, Image } from "@rneui/base";
-import { Modal, Text, View } from "react-native";
+import { Modal, Platform, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { getCurrencyMoney } from "../../api/api";
 import { stylesOrderTypePayment } from "../../styles/styles";
@@ -70,8 +70,7 @@ const OrderTypePayment = (navigation) => {
     };
 
     return (
-        <View>
-            <View>
+            <View style={{marginTop: Platform.OS === 'ios' ? 45 : 10 }}>
 
                 <View style={stylesOrderTypePayment.containerText}>
                     <Text style={stylesOrderTypePayment.textStyle}>Moneda de Pago</Text>
@@ -133,7 +132,6 @@ const OrderTypePayment = (navigation) => {
 
 
             </View>
-        </View>
     );
 }
 export default OrderTypePayment;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, LogBox, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-// import QRCodeScanner from "react-native-qrcode-scanner";
+import QRCodeScanner from "react-native-qrcode-scanner";
 import { Buffer } from 'buffer';
 import { Button, Card, Icon, Image } from "@rneui/base";
 import { useDispatch, useSelector } from "react-redux";
@@ -91,35 +91,34 @@ const QrScreen = ({ navigation }) => {
   return (
     <View style={stylesQr.contentView}>
       {scan ? (
-        // <QRCodeScanner
-        //   reactivate={true}
-        //   vibrate={false}
-        //   showMarker={true}
-        //   onRead={onSuccess}
-        //   cameraStyle={{ height: height / 2, width: width }}
-        //   topContent={
-        //     <View >
-        //       <Text>
-        //         Scanea el codigo QR
-        //       </Text>
-        //     </View>
-        //   }
-        //   bottomContent={
-        //     <View>
-        //       <Button
-        //         title="Cancelar"
-        //         onPress={() => {
-        //           setScan(false);
-        //           dispatch(setQrScaner(false))
-        //         }}
+        <QRCodeScanner
+          reactivate={true}
+          vibrate={false}
+          showMarker={true}
+          onRead={onSuccess}
+          cameraStyle={{ height: height / 2, width: width }}
+          topContent={
+            <View >
+              <Text>
+                Scanea el codigo QR
+              </Text>
+            </View>
+          }
+          bottomContent={
+            <View>
+              <Button
+                title="Cancelar"
+                onPress={() => {
+                  setScan(false);
+                  dispatch(setQrScaner(false))
+                }}
 
-        //         buttonStyle={stylesQr.btnCancel}
-        //         titleStyle={stylesQr.textColor}
-        //       />
-        //     </View>
-        //   }
-        // />
-        <Text>Qr</Text>
+                buttonStyle={stylesQr.btnCancel}
+                titleStyle={stylesQr.textColor}
+              />
+            </View>
+          }
+        />
       ) : (
         <View style={stylesQr.contentBtnQr}>
 

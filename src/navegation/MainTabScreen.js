@@ -26,6 +26,7 @@ import Pago from '../screens/orders/Pago';
 import SplashJoinScreen from '../screens/splash/Splash_Join_Screen';
 import { setViewModal } from '../redux/actions/action';
 import CategoriesScreen from '../screens/categories/CategoriesScreen';
+import { Platform } from 'react-native';
 
 
 
@@ -181,7 +182,8 @@ const MainTabScreen = ({ navigation }) => {
         tabBarStyle: {
           backgroundColor: '#ffffff',
           display: refres_Splash ? 'flex' : 'none',//oculta el tabbar, al scanear la mesa
-          height: 60,
+          // height: 60,
+          height: Platform.OS === 'ios' ? 70 : 60
         },
         tabBarShowLabel: true,
 

@@ -26,7 +26,7 @@ export const stylesLogin = StyleSheet.create({
         elevation: 5
     },
     textTitleModal: {
-        fontSize: 15,
+        fontSize: 12,
         marginLeft: 10,
         color: '#fffeff'
 
@@ -44,7 +44,8 @@ export const stylesLogin = StyleSheet.create({
     },
     //centrar container
     containerView: {
-        marginTop: '10%',
+        // marginTop: '10%',
+        marginTop: Platform.OS === 'ios' ? '20%': '10%',
         marginLeft: '5%',
         marginRight: '5%',
     },
@@ -86,7 +87,7 @@ export const stylesLogin = StyleSheet.create({
         marginTop: '5%',
     },
     textTitle: {
-        marginLeft: '5%',
+        // marginLeft: '5%',
         marginBottom: '5%',
     }
 
@@ -94,11 +95,15 @@ export const stylesLogin = StyleSheet.create({
 
 //----------------stylesHome----------------
 export const stylesHome = StyleSheet.create({
+    titlePrincipalRestauranst: {
+        fontSize: 18,
+        marginBottom: 12,
+        marginTop: 10,
+    },
     viewContentTopHome: {
-        // paddingTop: 35, 
         paddingTop: Platform.OS === 'ios' ? 65 : 35,
         paddingHorizontal: 30,
-        width: width 
+        width: width
     },
     viewContentDimensions: {
         shadowOpacity: 0,
@@ -241,7 +246,24 @@ export const stylesHome = StyleSheet.create({
     textName: {
         fontSize: 15,
         fontWeight: 'bold',
-    }
+    },
+    titleAddress: {
+        color: '#5f5f5f',
+        marginRight: '10%',
+        alignSelf: 'center',
+    },
+    contentText: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginLeft: '5%',
+        marginTop: 10,
+        marginBottom: 10
+    },
+    styleOpen: {
+        color: '#197b5f',
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
 });
 
 //----------------stylesProfile----------------
@@ -424,6 +446,14 @@ export const stylesQr = StyleSheet.create({
 
 //----------------stylesOrderDetails----------------
 export const stylesOrderDetails = StyleSheet.create({
+    viewContentBack: {
+        backgroundColor: 'rgba(206,40,40,255)', 
+        borderRadius: 10, 
+        width: 40, 
+        height: 40, 
+        justifyContent: 'center', 
+        alignItems: 'center' 
+    },
     centeredView: {
         // flex: 1,
         justifyContent: "center",
@@ -454,7 +484,8 @@ export const stylesOrderDetails = StyleSheet.create({
 
     },
     contentViewHeader: {
-        paddingTop: 35,
+        // paddingTop: 35,
+        paddingTop: Platform.OS === 'ios' ? 65 : 35,
         opacity: 0.9,
         paddingHorizontal: 30,
         width: width
@@ -465,17 +496,18 @@ export const stylesOrderDetails = StyleSheet.create({
         right: '50%',
     },
     imgStyles: {
-        height: 150,
-        width: width * 0.9,
+        height: 320,
+        width: 320,
         overflow: 'hidden',
-        resizeMode: 'contain',
+        // resizeMode: 'contain',
         alignSelf: 'center',
         borderRadius: 10,
         marginBottom: 20,
     },
     contentButton: {
         left: '60%',
-        top: -15,
+        // top: -15,
+        top: Platform.OS === 'ios' ? -20 : -15,
         position: 'absolute'
     },
     contentInput: {
@@ -532,6 +564,14 @@ export const stylesOrderDetails = StyleSheet.create({
     titleDescription: {
         color: '#5f5f5f',
         top: '5%'
+    },
+    titleName: {
+        fontSize: 20,
+    },
+    viewTitleContent: {
+        alignSelf: 'center',
+        top: -35,
+        // width: 250
     }
 
 });
@@ -679,6 +719,9 @@ export const stylesOrders = StyleSheet.create({
         justifyContent: 'space-between',
         marginRight: 20,
         top: 10
+    },
+    textColorTodo: {
+        color: 'rgba(95,95,95,255)' 
     }
 
 });
@@ -873,7 +916,8 @@ export const stylesMenu = StyleSheet.create({
         elevation: 5
     },
     styleGradient: {
-        paddingTop: 35,
+        // paddingTop: 35,
+        paddingTop: Platform.OS === 'ios' ? 65 : 35,
         opacity: 0.9,
         // paddingHorizontal: 30,
         width: width,
@@ -911,7 +955,8 @@ export const stylesMenu = StyleSheet.create({
         resizeMode: 'contain'
     },
     contentImgAvatarView: {
-        top: '62%',
+        // top: '62%',
+        top: Platform.OS === 'ios' ? '62%' : '55%',
         right: '3%',
         zIndex: 1,
         position: 'absolute'
@@ -1021,6 +1066,7 @@ export const stylesMenu = StyleSheet.create({
     input: {
         width: '100%',
         backgroundColor: 'white',
+        paddingLeft: Platform.OS === 'ios' ? 10 : 4,
         borderRadius: 15,
         height: 150,
         borderWidth: 1,
@@ -1034,7 +1080,7 @@ export const stylesMenu = StyleSheet.create({
 export const stylesOrderTypePayment = StyleSheet.create({
     textTitle: {
         fontSize: 20,
-
+        color: '#626464'
     },
     textCheck: {
         color: '#626464'
@@ -1307,10 +1353,34 @@ export const stylesModal = StyleSheet.create({
 
 //----------------stylesCategoriesScreen----------------
 export const stylesCategoriesScreen = StyleSheet.create({
+    viewContentBack:{
+        backgroundColor: 'rgba(206,40,40,255)', 
+        borderRadius: 10, 
+        width: 40, 
+        height: 40, 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    contentCategories: {
+        flex: 1,
+        marginRight: 10,
+        marginLeft: 10,
+        backgroundColor: '#ffffff',
+        borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 10,
+    },
+    contentImgCategories: {
+        height: 40,
+        width: 40,
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
     viewContentHeader: {
         paddingTop: Platform.OS === 'ios' ? 65 : 35,
         paddingHorizontal: 30,
-        width: width 
+        width: width
     },
     titlePrimary: {
         marginLeft: '5%',
@@ -1371,5 +1441,37 @@ export const stylesCategoriesScreen = StyleSheet.create({
     textName: {
         fontSize: 15,
         fontWeight: 'bold',
-    }
+    },
+    contentText: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginLeft: '5%',
+        marginTop: 10,
+        marginBottom: 10
+    },
+    titleAddress: {
+        color: '#5f5f5f',
+        marginRight: '10%',
+        alignSelf: 'center',
+    },
+});
+
+//----------------stylesCategoriesRestaurants----------------
+export const stylesCategoriesRestaurants = StyleSheet.create({
+    contentCategories: {
+        flex: 1,
+        marginRight: 10,
+        marginLeft: 10,
+        backgroundColor: '#ffffff',
+        borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 10,
+    },
+    contentImgCategories: {
+        height: 40,
+        width: 40,
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
 });

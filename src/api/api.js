@@ -2,8 +2,9 @@ import axios from "axios";
 
 //Url base desarrollo
 // const URL = "http://192.168.122.189:8000";
-// const URL = "http://sisr-backend.rosphrethic.com";
+// const URL = "http://127.0.0.1:8000";
 const URL = 'https://sisr-backendsix.rosphrethic.com'
+// const URL = 'http://sisr-backend.test'
 
 //-------------------------------------------------------------listar locales
 export const getLocales = () => {
@@ -116,7 +117,7 @@ export const getUser = (body) => {
         axios({
             url: URL + '/api/v1/users/details',
             method: 'Get',
-            data: body,
+            // data: body,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + body.access_token
@@ -128,7 +129,7 @@ export const getUser = (body) => {
             })
             .catch(error => {
                 // resolve(error);
-                reject(error.response.data);
+                reject(error.response);
                 // console.log("error-data", error.response.data.message);
             });
     });
@@ -367,7 +368,7 @@ export const getCurrencyMoney = (body) => {
         axios({
             url: URL + '/api/v1/currencies',
             method: 'Get',
-            data: body,
+            // data: body,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + body.access_token
