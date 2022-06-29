@@ -886,10 +886,18 @@ export const stylesMenu = StyleSheet.create({
     },
     textName: {
         fontSize: 20,
+        alignSelf: 'center',
+        marginRight: 'auto',
+        color: '#727373',
+    },
+    textHorarios: {
+        color: '#727373',
     },
     subTitle: {
         fontSize: 15,
-        color: '#727373'
+        color: '#727373',
+        alignSelf: 'center',
+        marginRight: 'auto'
     },
     centeredView: {
         flex: 1,
@@ -987,7 +995,7 @@ export const stylesMenu = StyleSheet.create({
         margin: 10,
         borderRadius: 15,
         backgroundColor: '#ffffff',
-        height: 100,
+        // height: 100,
         marginLeft: '1%',
         marginRight: '1%',
     },
@@ -1018,7 +1026,7 @@ export const stylesMenu = StyleSheet.create({
     },
     titleCard: {
         left: 5,
-        fontSize: 15,
+        // fontSize: 15,
         fontWeight: 'bold',
         width: '95%'
     },
@@ -1031,9 +1039,15 @@ export const stylesMenu = StyleSheet.create({
     },
     viewPromotion: {
         backgroundColor: '#cf2829',
-        width: '100%',
-        top: 35,
-        // width: '100%',
+        // transform: [{ rotate: "-55deg" }],
+        marginTop: 8,
+        // right: 25,
+        // borderRadius: 10,
+        borderBottomRightRadius: 10,
+        borderTopEndRadius: 10,
+        width: 69,
+        marginBottom: 5,
+        left: 5,
     },
     titleSecundaryCard: {
         left: 5,
@@ -1043,6 +1057,7 @@ export const stylesMenu = StyleSheet.create({
     titlePriceCard: {
         left: 5,
         fontSize: 15,
+        marginBottom: 15
         // color: '#a83e42',
     },
     titlePriceCardPromotion: {

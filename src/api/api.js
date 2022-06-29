@@ -6,6 +6,36 @@ import axios from "axios";
 const URL = 'https://sisr-backendsix.rosphrethic.com'
 // const URL = 'http://sisr-backend.test'
 
+//-------------------------------------------------------------listar categorias de productos
+export const postNotificationsToken = (token, body) => {
+    let bodyToken = {};
+    bodyToken.fcm_token = token
+
+    // console.log("token", bodyToken);
+    // console.log('body-user', body);
+
+    return new Promise((resolve, reject) => {
+        axios({
+            url: URL + '/api/v1/users/update-fcm-token',
+            method: 'Post',
+            data: bodyToken,
+            headers: {
+                'Authorization': 'Bearer ' +  body.access_token,
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                resolve(response.data.data);
+                //reject(response.data.data);
+                console.log("obtiene-token", response.data.data);
+            })
+            .catch(error => {
+                resolve(error.response.data);
+                console.log("error-data", error.response.data);
+            });
+    });
+};
+
 //-------------------------------------------------------------listar locales
 export const getLocales = () => {
 

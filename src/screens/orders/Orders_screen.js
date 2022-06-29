@@ -234,6 +234,9 @@ const OrdersScreen = ({ navigation }) => {
     }
   }
 
+  let dataItemsOrders = dataOrders ? dataOrders.length > 0 : false;
+  console.log('dataItems', dataItemsOrders)
+
   return (
     <>
       {stateToken ? (
@@ -292,7 +295,7 @@ const OrdersScreen = ({ navigation }) => {
               </View>
 
               {isOpen && (
-                <View style={{ marginBottom: '10%' }}>
+                <View style={{ marginBottom: dataItemsOrders ? 130: 0}}>
                   {dataOrders ? dataOrders.map((item, index) => (
                     <View key={index}>
                       <Card containerStyle={{ borderRadius: 10 }}>
@@ -331,7 +334,7 @@ const OrdersScreen = ({ navigation }) => {
 
               {/*Hostorial de orders*/}
               {!isOpen && (
-                <View style={{ marginBottom: 20 }}>
+                <View style={{ marginBottom: 25 }}>
                   {historialPedidos ? productsHistory.my_order_products.map((item, index) => (
                     <View key={index}>
                       <Card containerStyle={{ borderRadius: 10 }}>
@@ -341,8 +344,8 @@ const OrdersScreen = ({ navigation }) => {
                             style={stylesOrders.imgStyle}
                           />
                           <View style={{ marginRight: 'auto', left: 10, width: '50%' }}>
-                            <Text>{item ? item.product_name : null}</Text>
-                            <Text>{nameCurrentCode} {item ? item.product_price_formatted : null} {item ? item.quantity : null}x</Text>
+                            <Text style={stylesOrders.textColorTodo}>{item ? item.product_name : null}</Text>
+                            <Text style={stylesOrders.textColorTodo}>{nameCurrentCode} {item ? item.product_price_formatted : null} {item ? item.quantity : null}x</Text>
                           </View>
 
                           <Text style={stylesOrders.textStatus}>
@@ -397,8 +400,13 @@ const OrdersScreen = ({ navigation }) => {
             {isOpen && (
               <View style={[stylesOrders.contentViewMonto,
               {
-                marginTop: iconView ? Platform.OS === 'ios' ? '100%' : deviceHeight > 700 ? '80%' : '50%' :
-                  Platform.OS === 'ios' ? 722 : deviceHeight > 700 ? '170%' : '135%'
+                // marginTop: iconView ? Platform.OS === 'ios' ? '100%' : deviceHeight > 700 ? '80%' : '50%' :
+                  // Platform.OS === 'ios' ? 722 : deviceHeight > 700 ? '170%' : '135%'
+                  marginTop: iconView ? dataItemsOrders ? Platform.OS === 'ios' ? '100%' : 
+                  deviceHeight > 700 ? '85%' : '50%': 
+                  Platform.OS === 'ios' ? '95%' : deviceHeight > 700 ? '82%' : '50%': 
+                  dataItemsOrders ? Platform.OS === 'ios' ? '162%' : deviceHeight > 700 ? '149%' : '115%' :
+                  Platform.OS === 'ios' ? '183%' : deviceHeight > 700 ? '170%' : '135%'
               }]}>
 
                 <View>
@@ -440,7 +448,8 @@ const OrdersScreen = ({ navigation }) => {
                 )}
 
                 {dataOrders && dataOrders.length > 0 && (
-                  <View style={stylesOrders.contentViewBtnMonto}>
+                  // <View style={stylesOrders.contentViewBtnMonto}>
+                  <View style={{marginTop: iconView ? '5%': '-1%'}}>
                     <Button
                       title={'Enviar nuevos Pedidos'}
                       onPress={enviarOrders}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Card, Divider, FAB, Icon, Input, LinearProgress, ListItem, Text } from '@rneui/base';
-import { Dimensions, FlatList, Image, ImageBackground, Modal, RefreshControl, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Dimensions, FlatList, Image, ImageBackground, Modal, Platform, RefreshControl, ScrollView, TouchableOpacity, View } from 'react-native';
 import { stylesLogin, stylesMenu } from '../../styles/styles';
 import LinearGradient from 'react-native-linear-gradient';
 import { getCurrentOrder, getMenuCategories, getPromociones, postCallMesero, postDetailsLocal } from '../../api/api';
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIcon, setRefreshCarrito } from '../../redux/actions/action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { onDisplayNotification } from '../notificacion/notificacionAndroid';
 
 const { height, width } = Dimensions.get('window');
 
@@ -34,6 +35,7 @@ const Menu = (navigation) => {
         latitudeDelta: 0.00922,
         longitudeDelta: 0.0421,
     });
+    const [horarios, setHorarios] = useState(false);
 
     //destructuring
     const { name } = navigation.route;
@@ -83,6 +85,7 @@ const Menu = (navigation) => {
 
     useEffect(() => {
         //obtiene las categorias de los productos
+        
         getMenuCategories(id)
             .then((response) => {
                 // console.log("medu-data", response ? response.map(item => item.products) : []);
@@ -103,7 +106,8 @@ const Menu = (navigation) => {
                     latitudeDelta: 0.00922,
                     longitudeDelta: 0.0421,
                 });
-                setlocal(response)
+                setlocal(response);
+                // onDisplayNotification(response);//agregue para probar la notificacion
             })
             .catch((error) => {
                 console.log(error);
@@ -328,17 +332,48 @@ const Menu = (navigation) => {
                         visible={modalVisible || viewPropietario || callMesero}
                     >
                         <View style={stylesMenu.centeredView}>
-                            <View style={[stylesMenu.modalView, { height: modalVisible ? '60%' : null }]}>
+                            <View style={[stylesMenu.modalView, { height: modalVisible ? Platform.OS === 'ios' ? 'auto' : 'auto' : null }]}>
                                 {modalVisible &&
                                     <>
-                                        <View style={{ alignItems: 'center' }}>
-                                            <Text style={stylesMenu.textName}>{local ? local.name : ''}</Text>
-                                            <Text style={stylesMenu.subTitle}>{local ? local.address : ''}</Text>
-                                            <Text style={stylesMenu.subTitle}>{local ? local.telephone : ''}</Text>
-                                            <Text style={stylesMenu.subTitle}>{local ? local.email : ''}</Text>
+                                        <View>
+                                            <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                                <Icon
+                                                    name='store'
+                                                    size={30}
+                                                    color= '#727373'
+                                                />
+                                                <Text style={stylesMenu.textName}>{local ? local.name : ''}</Text>
+                                            </View>
+
+                                            <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                                <Icon
+                                                    name='call'
+                                                    size={30}
+                                                    color= '#727373'
+                                                />
+                                                <Text style={stylesMenu.subTitle}>{local ? local.telephone : ''}</Text>
+                                            </View>
+
+                                            <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                                <Icon
+                                                    name='place'
+                                                    size={30}
+                                                    color= '#727373'
+                                                />
+                                                <Text style={stylesMenu.subTitle}>{local ? local.address : ''}</Text>
+                                            </View>
+
+                                            <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                                <Icon
+                                                    name='email'
+                                                    size={30}
+                                                    color= '#727373'
+                                                />
+                                                <Text style={stylesMenu.subTitle}>{local ? local.email : ''}</Text>
+                                            </View>
                                         </View>
 
-                                        <MapView
+                                        {/* <MapView
                                             style={{ flex: 1 }}
                                             initialRegion={posMaps}
                                             // provider={PROVIDER_GOOGLE}
@@ -351,7 +386,50 @@ const Menu = (navigation) => {
                                                     longitude: posMaps.longitude,
                                                 }}
                                             />
-                                        </MapView>
+                                        </MapView> */}
+                                        <TouchableOpacity onPress={() => setHorarios(!horarios)}>
+                                            <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+
+                                                <Icon
+                                                    name='schedule'
+                                                    size={30}
+                                                    color= '#727373'
+                                                />
+                                                <Text style={stylesMenu.subTitle}>Horarios de atención:</Text>
+
+                                                <Icon
+                                                    // name='expand-more'
+                                                    // name='expand-right'
+                                                    name={horarios ? 'expand-less' : 'expand-more'}
+                                                    size={30}
+                                                />
+
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        {horarios && (
+                                            <>
+                                                {local ? local.opening_hours.map((item, index) => {
+                                                    return (
+                                                        <TouchableOpacity key={index}>
+                                                            <View style={{ left: 5 }}>
+                                                                <Text style={stylesMenu.textHorarios}>
+                                                                    {item.day}
+                                                                </Text>
+
+                                                                <Text style={stylesMenu.textHorarios}>
+                                                                    {item.from}Hs a {item.to}Hs
+                                                                </Text>
+                                                                <Divider />
+                                                            </View>
+
+                                                        </TouchableOpacity>
+                                                    )
+                                                }
+                                                )
+                                                    : null}
+                                            </>
+                                        )}
                                     </>
                                 }
 
@@ -586,33 +664,48 @@ const Menu = (navigation) => {
                                             <View>
                                                 <View style={stylesMenu.contentItem}>
                                                     <View style={stylesMenu.positionItem}>
-                                                        {item.promotion_reference ? (
-                                                            <View style={stylesMenu.contentPromotion}>
-                                                                <ImageBackground
-                                                                    source={{ uri: item.photo_url }}
-                                                                    imageStyle={stylesMenu.imgCardPromotion}
-                                                                >
-                                                                    <View style={stylesMenu.viewPromotion}>
-                                                                        <Text style={stylesMenu.titleCardPromotion}>
-                                                                            {item.promotion_reference} OFF
-                                                                        </Text>
-                                                                    </View>
-                                                                </ImageBackground>
-                                                            </View>
-                                                        ) : (
-                                                            <Image
-                                                                source={{ uri: item.photo_url }}
-                                                                style={stylesMenu.imgCard}
-                                                            />
-                                                        )}
+                                                        {/* {item.promotion_reference ? ( */}
+                                                        {/* // <View style={stylesMenu.contentPromotion}> */}
+                                                        {/* //     <ImageBackground */}
+                                                        {/* //         source={{ uri: item.photo_url }}
+                                                            //         imageStyle={stylesMenu.imgCardPromotion}
+                                                            //     > */}
+                                                        {/* //         <View style={stylesMenu.viewPromotion}> */}
+                                                        {/* //             <Text style={stylesMenu.titleCardPromotion}> */}
+                                                        {/* //                 {item.promotion_reference} OFF */}
+                                                        {/* //                 10% OFF */}
+                                                        {/* //             </Text> */}
+                                                        {/* //         </View> */}
+                                                        {/* //     </ImageBackground> */}
+                                                        {/* // </View> */}
+                                                        {/* // ) : ( */}
+                                                        {/* // <Image */}
+                                                        {/* //     source={{ uri: item.photo_url }} */}
+                                                        {/* //     style={stylesMenu.imgCard} */}
+                                                        {/* // /> */}
+                                                        {/* // )} */}
+
+                                                        <Image
+                                                            source={{ uri: item.photo_url }}
+                                                            style={stylesMenu.imgCard}
+                                                        />
 
                                                         <View style={stylesMenu.contentTextCard}>
                                                             <Text style={stylesMenu.titleCard}>
                                                                 {item.name}
                                                             </Text>
+
                                                             <Text style={stylesMenu.titleSecundaryCard}>
                                                                 {item.name}
                                                             </Text>
+
+                                                            {item.promotion_reference &&
+                                                                <View style={stylesMenu.viewPromotion}>
+                                                                    <Text style={stylesMenu.titleCardPromotion}>
+                                                                        {item.promotion_reference} OFF
+                                                                    </Text>
+                                                                </View>
+                                                            }
 
                                                             {item.promotion_price_formatted &&
                                                                 <Text style={stylesMenu.titlePriceCardPromotion}>

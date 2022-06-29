@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Button, Icon, Input, Text } from '@rneui/base';
 import { Image, Modal, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { stylesLogin } from '../../styles/styles';
-import { postLogin, postRegister } from '../../api/api';
+import { postLogin, postNotificationsToken, postRegister } from '../../api/api';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../../redux/actions/action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import messaging from '@react-native-firebase/messaging';
 
 const Register = ({ navigation }) => {
     const [viewPassword, setViewPassword] = useState(false);
@@ -44,6 +45,23 @@ const Register = ({ navigation }) => {
         }
     }
 
+    //--------------token notifications
+    const tokenNotifications = async (response) => {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+        if (enabled) {
+            console.log('Authorization status:', authStatus);
+            await messaging()
+                .getToken()
+                .then((fcmToken) => {
+                    console.log('FCM Token -> ', fcmToken);
+                    postNotificationsToken(fcmToken, response)
+                });
+        } else console.log('Not Authorization status:', authStatus);
+    }
 
     //--valido si todos los campos estan llenos
     const handleRegister = () => {
@@ -94,6 +112,7 @@ const Register = ({ navigation }) => {
                             .then(response => {
                                 if (response.token_type === "Bearer") {
                                     storeData(response);
+                                    tokenNotifications(response);
                                     setTimeout(() => {
                                         dispatch(setToken(true));
                                     }, 1150);

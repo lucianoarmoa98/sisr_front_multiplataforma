@@ -14,7 +14,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getCurrentOrder } from "../../api/api";
 import { setIcon, setQrScaner, setRefresHome } from "../../redux/actions/action";
 import ModalScreen from "../modal/ModalScreen";
-//import messaging from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
+import { onDisplayNotification } from "../notificacion/notificacionAndroid";
 
 
 const { height, width } = Dimensions.get('window');
@@ -54,34 +55,36 @@ const Home_screen = ({ navigation }) => {
 
   let iconData = dataStorage ? dataStorage.length > 0 : false
 
-  // useEffect(() => {
-  //   const foregroundSuscribe = messaging().onMessage(async (remoteMessage) => {
-  //     console.log("notification: ", remoteMessage);
-  //   }
-  //   );
-
-  //   // const topicSuscribe = messaging()
-  //   // .subscribeToTopic('sisr')
-  //   // .then(() => console.log('Subscribed to topic "sisr"'));
-
-  //   const sendBackgroundMessage = async () => {
-  //     await messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-  //       console.log("notification-Push: ", remoteMessage);
-  //     }
-  //     );
-  //   }
+  useEffect(() => {
+    const foregroundSuscribe = messaging().onMessage(async (remoteMessage) => {
+      console.log("notification: ", remoteMessage);
+      onDisplayNotification(remoteMessage.notification)
+    }
+    );
     
-  //   // messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-  //   //   console.log("background: ", remoteMessage);
-  //   // });
+
+    // const topicSuscribe = messaging()
+    // .subscribeToTopic('sisr')
+    // .then(() => console.log('Subscribed to topic "sisr"'));
+
+    // const sendBackgroundMessage = async () => {
+    //   await messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    //     console.log("notification-Push: ", remoteMessage);
+    //   }
+    //   );
+    // }
     
-  //   return () => {
-  //     foregroundSuscribe();
-  //     sendBackgroundMessage();
-  //     // topicSuscribe();
-  //     // backgroundSuscribe();
-  //   }
-  // }, []);
+    // messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    //   console.log("background: ", remoteMessage);
+    // });
+    
+    return () => {
+      foregroundSuscribe();
+      // sendBackgroundMessage();
+      // topicSuscribe();
+      // backgroundSuscribe();
+    }
+  }, []);
 
   useEffect(() => {
     getDataStorageCurrenOrder();

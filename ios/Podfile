@@ -9,6 +9,9 @@ target 'sisr_front_multiplataforma' do
 
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+  
+  pod 'FirebaseCoreInternal', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
 
   # Flags change depending on the env values.
   flags = get_default_flags()
@@ -34,6 +37,7 @@ target 'sisr_front_multiplataforma' do
   use_flipper!()
 
   post_install do |installer|
+    use_frameworks!
     react_native_post_install(installer)
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
